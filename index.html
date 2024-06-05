@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to the next discipline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 flex items-center justify-center min-h-screen">
+    <div class="text-center p-6 bg-gray-800 rounded-lg shadow-lg">
+        <h1 class="text-4xl font-bold mb-6">Countdown to the next discipline</h1>
+        <div id="countdown" class="text-3xl text-red-500 font-semibold mb-4">Loading...</div>
+        <div id="discipline" class="text-2xl">Loading...</div>
+    </div>
+
+    <script>
+        const schedule = [
+            { time: "15:30", discipline: "4x60 m Žkm" },
+            { time: "15:50", discipline: "4x60 m Žcm" },
+            { time: "16:10", discipline: "4x200 m Žkm, 4x200 m Žcm" },
+            { time: "16:50", discipline: "1-2-3-4 Mix" },
+            { time: "17:10", discipline: "6-4-2-8 Mix" }
+        ];
+
+        function updateCountdown() {
+            const now = new Date();
+            const eventDate = new Date(2024, 5, 6); 
+            let nextEvent = null;
+
+            for (let i = 0; i < schedule.length; i++) {
+                const [hours, minutes] = schedule[i].time.split(':');
+                const eventTime = new Date(eventDate);
+                eventTime.setHours(parseInt(hours));
+                eventTime.setMinutes(parseInt(minutes));
+                
+                if (now < eventTime) {
+                    nextEvent = schedule[i];
+                    break;
+                }
+            }
+
+            if (nextEvent) {
+                const [nextHours, nextMinutes] = nextEvent.time.split(':');
+                const nextEventTime = new Date(eventDate);
+                nextEventTime.setHours(parseInt(nextHours));
+                nextEventTime.setMinutes(parseInt(nextMinutes));
+
+                const timeDifference = nextEventTime - now;
+
+                const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown').textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                document.getElementById('discipline').textContent = `${nextEvent.discipline} - ${nextEvent.time}`;
+            } else {
+                document.getElementById('countdown').textContent = 'No more disciplines';
+                document.getElementById('discipline').textContent = '';
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
