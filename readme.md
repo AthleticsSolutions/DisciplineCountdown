@@ -1,4 +1,4 @@
-# Countdown to the next discipline
+# [Countdown to the next discipline](https://athleticssolutions.github.io/DisciplineCountdown/)
 
 This application is designed to display a countdown to the next scheduled discipline in an athletics event. It shows the time remaining until the next discipline starts and provides details about the discipline.
 
